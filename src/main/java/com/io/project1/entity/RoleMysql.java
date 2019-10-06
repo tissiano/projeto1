@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Role {
+public class RoleMysql {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

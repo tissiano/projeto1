@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista users do Mysql</title>
+</head>
+<body>
+<table boder="1">
+    <tr>
+        <th>Nome</th>
+        <th>email</th>
+    </tr>
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+    </tr>
+</table>
+</body>
+</html>

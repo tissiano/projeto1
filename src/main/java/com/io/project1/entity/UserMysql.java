@@ -7,10 +7,10 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+// @AllArgsConstructor //não é possível usar o exclude nesse caso*/
 @ToString(exclude = "id")
 @EqualsAndHashCode
-public class User {
+public class UserMysql {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
@@ -24,5 +24,11 @@ public class User {
     @Getter
     @Setter
     @ManyToMany
-    private Set<Role> roles;
+    private Set<RoleMysql> roles;
+
+    public UserMysql(final String name, final String email) {
+        super();
+        this.name = name;
+        this.email = email;
+    }
 }
