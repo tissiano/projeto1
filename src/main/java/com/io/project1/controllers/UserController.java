@@ -45,4 +45,9 @@ public class UserController {
         model.addAttribute("userList", userService.findAllUserMysql());
         return "userMysql";
     }
+
+    public String helloWorld() {
+        System.out.println("Executou UserController.helloWorld()");
+        return "helloWorld";
+    }
 }
