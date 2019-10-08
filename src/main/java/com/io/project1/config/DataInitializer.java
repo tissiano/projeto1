@@ -22,7 +22,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent contextRefreshedEvent) {
-        System.out.println("Entrou Aqui: DataInitializer - SEMPRE executa esse método vez que iniciar a aplicação");
+        System.out.println("================> DataInitializer - SEMPRE executa esse método quando iniciar a aplicação");
 
         /* mongoDB */
         // Busca todos registros da tabela User no Mongo

@@ -26,7 +26,6 @@ public class Project1Application {
         /* exemplo de uso da annotation @Qualifier("motorcycleBean") */
         final MotorcycleComponent motorcycleComponent = (MotorcycleComponent) applicationContext.getBean("motorcycleComponent");
         motorcycleComponent.service();
-
     }
 
 }
