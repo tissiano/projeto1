@@ -36,15 +36,23 @@ public class UserController {
     public String getUsersMongo(final Model model) {
         /*por causa da DI(Injeção de Dependencia), não precisa fazer this.userService = new UserService() */
         model.addAttribute("userList", userService.findAllUserMongo());
-        return "userMongo";
+        return "userMongo"; //nome do html
     }
 
     @RequestMapping("/userMysql")
     public String getUsersMySql(final Model model) {
         /*por causa da DI(Injeção de Dependencia), não precisa fazer this.userService = new UserService() */
         model.addAttribute("userList", userService.findAllUserMysql());
-        return "userMysql";
+        return "userMysql"; //nome do html
     }
+
+    /*exemplo de RequestMapping, para cair nesse metodo abrir o link: http://localhost:8080/mapping*/
+    @RequestMapping("/mapping")
+    public String mapping() {
+        System.out.println("Executou UserController.mapping()");
+        return "mapping"; //nome do html
+    }
+
 
     /*exemplo de chamada do controller no Application.java*/
     public String helloWorld() {
