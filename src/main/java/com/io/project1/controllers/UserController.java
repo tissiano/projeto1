@@ -46,6 +46,7 @@ public class UserController {
         return "userMysql";
     }
 
+    /*exemplo de chamada do controller no Application.java*/
     public String helloWorld() {
         System.out.println("Executou UserController.helloWorld()");
         return "helloWorld";
