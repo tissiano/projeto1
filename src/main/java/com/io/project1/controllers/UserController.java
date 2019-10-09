@@ -1,7 +1,5 @@
 package com.io.project1.controllers;
 
-import com.io.project1.repository.UserMongoRepository;
-import com.io.project1.repository.UserMysqlRepository;
 import com.io.project1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

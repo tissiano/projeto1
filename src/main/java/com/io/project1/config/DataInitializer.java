@@ -24,9 +24,14 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     /*Exemplo de como acessar as variaveis do application.properties*/
     @Value("${titi.name}")
     private String name;
-
     @Value("${titi.email}")
     private String email;
+
+    /*Exemplo de como acessar as variaveis do application.yml*/
+    @Value("${supportUser.name}")
+    private String supportName;
+    @Value("${supportUser.email}")
+    private String supportEmail;
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent contextRefreshedEvent) {
@@ -39,6 +44,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         // Se nao existir registro, faz o insert do registro abaixo no Mongo
         if (usersMongo.isEmpty()) {
             createUserByNameAndEmail(name, email, false);
+            createUserByNameAndEmail(supportName, supportEmail, false);
             createUserByNameAndEmail("teste", "teste@gmail.com", false);
             createUserByNameAndEmail("blablabla", "lorena@gmail.com", false);
             createUserByNameAndEmail("delete", "delete@gmail.com", false);
@@ -69,6 +75,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         // Se nao existir registro, faz o insert do registro abaixo no Mysql
         if (usersMysql.isEmpty()) {
             createUserByNameAndEmail(name, email, true);
+            createUserByNameAndEmail(supportName, supportEmail, true);
             createUserByNameAndEmail("teste", "teste@gmail.com", true);
             createUserByNameAndEmail("blablabla", "lorena@gmail.com", true);
             createUserByNameAndEmail("delete", "delete@gmail.com", true);
