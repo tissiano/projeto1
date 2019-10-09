@@ -8,9 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
 /*exemplo de ComponentScan*/
-@ComponentScan(basePackages = {"com.io.project1.service", "com.io.project1.controllers", "com.io.project1.demoQualifier"})
+//@ComponentScan(basePackages = {"com.io.project1.service", "com.io.project1.controllers", "com.io.project1.demoQualifier"})
+@SpringBootApplication
 public class Project1Application {
 
     public static void main(final String[] args) {

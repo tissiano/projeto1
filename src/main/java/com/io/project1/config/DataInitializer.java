@@ -5,6 +5,7 @@ import com.io.project1.entity.UserMysql;
 import com.io.project1.repository.UserMongoRepository;
 import com.io.project1.repository.UserMysqlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,13 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     @Autowired
     UserMongoRepository userMongoRepository;
 
+    /*Exemplo de como acessar as variaveis do application.properties*/
+    @Value("${titi.name}")
+    private String name;
+
+    @Value("${titi.email}")
+    private String email;
+
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("================> DataInitializer - SEMPRE executa esse método quando iniciar a aplicação");
@@ -30,6 +38,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         // Se nao existir registro, faz o insert do registro abaixo no Mongo
         if (usersMongo.isEmpty()) {
+            createUserByNameAndEmail(name, email, false);
             createUserByNameAndEmail("teste", "teste@gmail.com", false);
             createUserByNameAndEmail("blablabla", "lorena@gmail.com", false);
             createUserByNameAndEmail("delete", "delete@gmail.com", false);
@@ -59,6 +68,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         // Se nao existir registro, faz o insert do registro abaixo no Mysql
         if (usersMysql.isEmpty()) {
+            createUserByNameAndEmail(name, email, true);
             createUserByNameAndEmail("teste", "teste@gmail.com", true);
             createUserByNameAndEmail("blablabla", "lorena@gmail.com", true);
             createUserByNameAndEmail("delete", "delete@gmail.com", true);
