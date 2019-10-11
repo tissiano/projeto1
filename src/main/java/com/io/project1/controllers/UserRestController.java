@@ -4,16 +4,13 @@ import com.io.project1.entity.UserMongo;
 import com.io.project1.entity.UserMysql;
 import com.io.project1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class UserRestController {
+    /*exemplos de RequestMethod.GET, RequestMethod.POST, @RequestBody e @PathVariable*/
 
     @Autowired
     private UserService userService;
@@ -45,4 +42,21 @@ public class UserRestController {
         return userService.findAllUserMysqlByName(name);
         // para executar esse metodo, chamar: http://localhost:8080/userRestMysql/Tissiano
     }
+
+    @RequestMapping(value = "userMongo", method = RequestMethod.POST)
+    public UserMongo setUserMongo(@RequestBody final UserMongo userMongo) {
+        return userMongo;
+        // para testar: abrir o Postman no endereço localhost:8080/userMongo
+        // e no body, inserir: {"name": "nomeX", "email": "nomeX@gmail.com"}
+
+    }
+
+    @RequestMapping(value = "userMysql", method = RequestMethod.POST)
+    public UserMysql setUserMysql(@RequestBody final UserMysql userMysql) {
+        return userMysql;
+        // para testar: abrir o Postman no endereço localhost:8080/userMongo
+        // e no body, inserir: {"name": "nomeX", "email": "nomeX@gmail.com"}
+
+    }
+
 }

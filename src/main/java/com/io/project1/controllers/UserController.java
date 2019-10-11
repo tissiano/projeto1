@@ -1,9 +1,14 @@
 package com.io.project1.controllers;
 
+import com.io.project1.entity.UserMongo;
+import com.io.project1.entity.UserMysql;
 import com.io.project1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,6 +34,7 @@ public class UserController {
     /*Utilizando a camada de serviço no controller ao invés de chamar o repository diretamente*/
     @Autowired
     private UserService userService;
+    private UserMongo userMongo;
 
     @RequestMapping("/userMongo")
     public String getUsersMongo(final Model model) {
@@ -51,10 +57,32 @@ public class UserController {
         return "mapping"; //nome do html
     }
 
-
     /*exemplo de chamada do controller no Application.java*/
     public String helloWorld() {
         System.out.println("Executou UserController.helloWorld()");
         return "helloWorld";
+    }
+
+    /*exemplos de métodos HTTP*/
+    @GetMapping("/userMongoHttp")
+    public String getUserMongoHttp(final Model model) {
+        model.addAttribute("userMongo", new UserMongo());
+        return "userMongoHttp"; // nome do html
+    }
+
+    @PostMapping("/userMongoHttp")
+    public String userSubmitMongoHttp(@ModelAttribute final UserMongo userMongo) {
+        return "resultMongoHttp"; // nome do html
+    }
+
+    @GetMapping("/userMysqlHttp")
+    public String getUserMysqlHttp(final Model model) {
+        model.addAttribute("userMysql", new UserMysql());
+        return "userMysqlHttp"; // nome do html
+    }
+
+    @PostMapping("/userMysqlHttp")
+    public String userSubmitMysqlHttp(@ModelAttribute final UserMysql userMysql) {
+        return "resultMysqlHttp"; // nome do html
     }
 }
