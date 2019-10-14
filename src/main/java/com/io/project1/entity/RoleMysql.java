@@ -1,14 +1,10 @@
 package com.io.project1.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data //cria os getters/setters, EqualsAndHashCode etc
@@ -21,9 +17,19 @@ public class RoleMysql {
     private Long id;
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    private StatusRole status;
+
     public RoleMysql(final String name) {
         super();
         this.name = name;
+        status = StatusRole.ATIVO;
+    }
+
+    public RoleMysql(final String name, final StatusRole status) {
+        super();
+        this.name = name;
+        this.status = status;
     }
 
 }

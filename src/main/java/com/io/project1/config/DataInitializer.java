@@ -1,6 +1,7 @@
 package com.io.project1.config;
 
 import com.io.project1.entity.RoleMysql;
+import com.io.project1.entity.StatusRole;
 import com.io.project1.entity.UserMongo;
 import com.io.project1.entity.UserMysql;
 import com.io.project1.repository.RoleMysqlRepository;
@@ -81,7 +82,16 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         if (rolesMysql.isEmpty()) {
             createRole("Admin");
             createRole("Aluno");
+            createRole("Temporario", StatusRole.INATIVO);
         }
+
+        // Busca todos registros da tabela Role no Mysql que estivem ATIVOS
+        final List<RoleMysql> rolesMysqlByStatus = roleMysqlRepository.findByStatus(StatusRole.ATIVO);
+        System.out.println("Roles Ativas: ");
+        for (final RoleMysql roleAtivo : rolesMysqlByStatus) {
+            System.out.println(roleAtivo.getName());
+        }
+
 
         // Busca todos registros da tabela User no Mysql
         final List<UserMysql> usersMysql = userMysqlRepository.findAll();
@@ -92,7 +102,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             createUser(supportName, supportEmail, "Aluno", true);
             createUser("teste", "teste@gmail.com", "Aluno", true);
             createUser("blablabla", "lorena@gmail.com", "Aluno", true);
-            createUser("delete", "delete@gmail.com", "Aluno", true);
+            createUser("delete", "delete@gmail.com", "Temporario", true);
         }
 /*
         // Busca o registro por id
@@ -126,6 +136,13 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         final RoleMysql role = new RoleMysql(name);
         roleMysqlRepository.save(role);
     }
+
+    public void createRole(final String name, final StatusRole status) {
+        // Salva o registro
+        final RoleMysql role = new RoleMysql(name, status);
+        roleMysqlRepository.save(role);
+    }
+
 
     public void createUser(final String name, final String email, final String role, final Boolean isMysql) {
 
