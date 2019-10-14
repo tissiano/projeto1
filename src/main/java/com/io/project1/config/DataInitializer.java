@@ -1,7 +1,9 @@
 package com.io.project1.config;
 
+import com.io.project1.entity.RoleMysql;
 import com.io.project1.entity.UserMongo;
 import com.io.project1.entity.UserMysql;
+import com.io.project1.repository.RoleMysqlRepository;
 import com.io.project1.repository.UserMongoRepository;
 import com.io.project1.repository.UserMysqlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,13 @@ import java.util.List;
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
+    UserMongoRepository userMongoRepository;
+
+    @Autowired
     UserMysqlRepository userMysqlRepository;
 
     @Autowired
-    UserMongoRepository userMongoRepository;
+    RoleMysqlRepository roleMysqlRepository;
 
     /*Exemplo de como acessar as variaveis do application.properties*/
     @Value("${titi.name}")
@@ -43,11 +48,11 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         // Se nao existir registro, faz o insert do registro abaixo no Mongo
         if (usersMongo.isEmpty()) {
-            createUserByNameAndEmail(name, email, false);
-            createUserByNameAndEmail(supportName, supportEmail, false);
-            createUserByNameAndEmail("teste", "teste@gmail.com", false);
-            createUserByNameAndEmail("blablabla", "lorena@gmail.com", false);
-            createUserByNameAndEmail("delete", "delete@gmail.com", false);
+            createUser(name, email, "Admin", false);
+            createUser(supportName, supportEmail, "Admin", false);
+            createUser("teste", "teste@gmail.com", "Aluno", false);
+            createUser("blablabla", "lorena@gmail.com", "Aluno", false);
+            createUser("delete", "delete@gmail.com", "Aluno", false);
         }
 /*
         // Busca o registro por nome
@@ -69,16 +74,25 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
 
         /* MySql */
+        // Busca todos registros da tabela Role no Mysql
+        final List<RoleMysql> rolesMysql = roleMysqlRepository.findAll();
+
+        // Se nao existir registro, faz o insert do registro abaixo no Mysql
+        if (rolesMysql.isEmpty()) {
+            createRole("Admin");
+            createRole("Aluno");
+        }
+
         // Busca todos registros da tabela User no Mysql
         final List<UserMysql> usersMysql = userMysqlRepository.findAll();
 
         // Se nao existir registro, faz o insert do registro abaixo no Mysql
         if (usersMysql.isEmpty()) {
-            createUserByNameAndEmail(name, email, true);
-            createUserByNameAndEmail(supportName, supportEmail, true);
-            createUserByNameAndEmail("teste", "teste@gmail.com", true);
-            createUserByNameAndEmail("blablabla", "lorena@gmail.com", true);
-            createUserByNameAndEmail("delete", "delete@gmail.com", true);
+            createUser(name, email, "Admin", true);
+            createUser(supportName, supportEmail, "Aluno", true);
+            createUser("teste", "teste@gmail.com", "Aluno", true);
+            createUser("blablabla", "lorena@gmail.com", "Aluno", true);
+            createUser("delete", "delete@gmail.com", "Aluno", true);
         }
 /*
         // Busca o registro por id
@@ -107,11 +121,19 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 */
     }
 
-    public void createUserByNameAndEmail(final String name, final String email, final Boolean isMysql) {
+    public void createRole(final String name) {
+        // Salva o registro
+        final RoleMysql role = new RoleMysql(name);
+        roleMysqlRepository.save(role);
+    }
+
+    public void createUser(final String name, final String email, final String role, final Boolean isMysql) {
+
+        final RoleMysql roleMysql = roleMysqlRepository.findByName(role);
 
         // Salva o registro
         if (isMysql) {
-            final UserMysql user = new UserMysql(name, email);
+            final UserMysql user = new UserMysql(name, email, roleMysql);
             userMysqlRepository.save(user);
         } else {
             final UserMongo user = new UserMongo(name, email);
