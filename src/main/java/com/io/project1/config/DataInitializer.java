@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
@@ -91,7 +94,18 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         for (final RoleMysql roleAtivo : rolesMysqlByStatus) {
             System.out.println(roleAtivo.getName());
         }
-
+        // teste de paginação
+        for (int i = 0; i <= 30; i++) { //cria linhas randomicas de role
+            createRole(UUID.randomUUID().toString(), StatusRole.INATIVO);
+        }
+        final PageRequest pageRequest = PageRequest.of(5, 5);
+        final Page<RoleMysql> rolesPagination = roleMysqlRepository.findAll(pageRequest);
+        System.out.println("Roles Paginadas: ");
+        int index = 1;
+        for (final RoleMysql roleAtivo : rolesPagination) {
+            System.out.println(index++ + " ===> " + roleAtivo.getName());
+        }
+        // teste de paginação
 
         // Busca todos registros da tabela User no Mysql
         final List<UserMysql> usersMysql = userMysqlRepository.findAll();
@@ -104,6 +118,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             createUser("blablabla", "lorena@gmail.com", "Aluno", true);
             createUser("delete", "delete@gmail.com", "Temporario", true);
         }
+
 /*
         // Busca o registro por id
         final UserMysql userMysql = userMysqlRepository.getOne(1L);
