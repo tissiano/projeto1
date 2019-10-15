@@ -90,6 +90,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         // Busca todos registros da tabela Role no Mysql que estivem ATIVOS
         final List<RoleMysql> rolesMysqlByStatus = roleMysqlRepository.findByStatus(StatusRole.ATIVO);
+
         System.out.println("Roles Ativas: ");
         for (final RoleMysql roleAtivo : rolesMysqlByStatus) {
             System.out.println(roleAtivo.getName());
@@ -119,10 +120,15 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             createUser("delete", "delete@gmail.com", "Temporario", true);
         }
 
-/*
         // Busca o registro por id
+        final UserMysql userMysql = userMysqlRepository.findByName("Tissiano");
+        System.out.println("getOne no Mysql: " + userMysql.getName() + '(' + userMysql.getRole().getName() + ')');
+
+
+/*
+
         final UserMysql userMysql = userMysqlRepository.getOne(1L);
-        System.out.println("getOne no Mysql: " + userMysql.getName());
+        System.out.println("getOne no Mysql: " + userMysql.getName() + '(' + userMysql.getRole() + ')');
 
         // Deleta o registro de ID = 3
         userMysqlRepository.deleteById(3L);
